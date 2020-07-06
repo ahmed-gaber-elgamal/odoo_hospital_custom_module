@@ -1,0 +1,1 @@
+# odoo_hospital_custom_module
