@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<odoo>
+  <data>
+      <template id="appointment_report">
+          <t t-call="web.html_container">
+              <t t-call="web.external_layout">
+                  <div class="page">
+                      <div class="oe_structure"/>
+                      <div class="row">
+                          <table class="table table-condensed">
+                              <thead>
+                                  <tr>
+                                      <th style="text-align:left;"><strong>Name</strong></th>
+                                      <th style="text-align:left;"><strong>Date</strong></th>
+                                      <th style="text-align:left;"><strong>Notes</strong></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <t t-foreach="docs" t-as="o" >
+                                    <tr>
+                                        <td style="text-align:left;">
+                                            <t t-esc="o['name']"/>
+                                        </td>
+                                        <td style="text-align:left;">
+                                            <t t-esc="o['appointment_date']"/>
+                                        </td>
+                                        <td style="text-align:left;">
+                                            <t t-esc="o['notes']"/>
+                                        </td>
+                                    </tr>
+                                  </t>
+                              </tbody>
+
+                          </table>
+                      </div>
+
+                  </div>
+
+              </t>
+
+          </t>
+      </template>
+<record model="ir.ui.view" id="appointment_calendar">
+            <field name="name">hospital.appointment.calendar</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <calendar date_start="appointment_date"  string="Appointment Calendar"  color="patient_id" mode="month" quick_add="False">
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                </calendar>
+            </field>
+        </record>
+<record model="ir.ui.view" id="appointment_tree">
+      <field name="name">hospital.appointment.tree</field>
+      <field name="model">hospital.appointment</field>
+      <field name="arch" type="xml">
+        <tree string="Appointment" decoration-info="patient_age == 10"
+           decoration-danger="patient_age &lt;= 20" decoration-success="patient_age &gt; 20">
+          <field name="patient_id"/>
+<!--          <field name="image" widget='image' class='oe_avatar'/>-->
+          <field name="name"/>
+          <field name="patient_age" avg="average ages"/>
+          <field name="state"/>
+          <field name="appointment_date"/>
+          <field name="notes"/>
+        </tree>
+      </field>
+    </record>
+  <record model="ir.ui.view" id="appointment_form">
+        <field name="name">appointment.form</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+          <form string='Appointment'>
+              <header>
+                  <button name="confirm_state" type="object" string="Confirm" class="oe_highlight" states="draft"/>
+                  <button name="done_state" type="object" string="Done" class="oe_highlight" states="confirm"/>
+                  <button name="delete_lines" type="object" string="delete" class="oe_highlight"/>
+                  <field name="state" widget="statusbar"  options="{'clickable':'1'}"/>
+              </header>
+
+            <sheet>
+
+              <!-- inline -->
+
+              <!-- end inline -->
+              <!-- default block -->
+<div>
+                <h1>
+                    <field name="name"/>
+                </h1>
+</div>
+
+
+<group>
+    <group>
+                        <field name="patient_id"/>
+                        <field name="patient_age"/>
+                    </group>
+    <group>
+                        <field name="partner_id"/>
+                        <field name="order_id"/>
+                    </group>
+
+    <group>
+
+        <field name="appointment_date" options="{'datepicker': {'daysOfWeekDisabled': [0,6]}}"/>
+        <field name="appointment_datetime"/>
+    </group>
+                </group>
+                <group>
+                    <field name="notes"></field>
+                </group>
+                <!-- end block -->
+                <notebook>
+                  <page string="Doctor Prescription">
+
+                            <field name="appointment_lines">
+                      <tree editable="bottom">
+                          <field name="product_id"/>
+                          <field name="appointment_id" invisible="1"/>
+                          <field name="product_quantity"/>
+                      </tree>
+                      <form>
+                          <group>
+                              <group>
+                                <field name="product_id"/>
+                              </group>
+                              <group>
+                                  <field name="product_quantity"/>
+                              </group>
+                          </group>
+                      </form>
+                            </field>
+
+
+                  </page>
+                  <page string="Pharmacy">
+
+                        <field name="pharmacy_notes"/>
+
+                  </page>
+              </notebook>
+            </sheet>
+            <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+          </form>
+        </field>
+      </record>
+
+
+  <record model="ir.actions.act_window" id="hospital_appointment_action">
+      <field name="name">Appointment </field>
+      <field name="res_model">hospital.appointment</field>
+      <field name='type'>ir.actions.act_window</field>
+
+      <field name="view_mode">tree,form,calendar</field>
+<!--      <field name="context">{'search_default_male': 1}</field>-->
+      <field name='help' type='html'>
+        <p class='o_view_nocontent_smiling_face'>
+          Create First Appointment
+        </p>
+      </field>
+    </record>
+       <record id="report_appointment" model="ir.actions.report">
+        <field name="name">print appointment</field>
+        <field name="model">hospital.appointment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hospital.appointment_report</field>
+    </record>
+
+
+  <menuitem id='appointment_patients' name='Appointment' parent='hospital_root' action='hospital_appointment_action'></menuitem>
+
+  </data>
+</odoo>

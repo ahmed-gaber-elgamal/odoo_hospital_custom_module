@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<odoo>
+  <data>
+      <record model="ir.actions.act_window" id="open_patient_appointment">
+<!--            <field name="context">{'search_default_group_date': 1, 'default_account_id': active_id}</field>-->
+            <field name="domain">[('patient_id','=', active_id)]</field>
+            <field name="name">Appointment</field>
+            <field name="res_model">hospital.appointment</field>
+            <field name="view_mode">tree,form</field>
+
+
+        </record>
+    <record id="sale_order_inherit" model="ir.ui.view">
+        <field name="name">sale_order.inherit</field>
+        <field name="model">sale.order</field> 
+        <field name="inherit_id" ref="sale.view_order_form" />
+
+        <field name="arch" type="xml">
+          <field name='partner_id' position='after'>
+            <field name='patient_name'/>
+          </field>
+        </field>
+    </record>
+
+<record model="ir.ui.view" id="hospital_list">
+      <field name="name">Patients list</field>
+      <field name="model">hospital.patient</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name_seq"/>
+          <field name="image" widget='image' class='oe_avatar'/>
+          <field name="name"/>
+          <field name="patient_name_upper"/>
+          <field name="doctor_name" />
+          <field name="age"/>
+          <field name="gender"/>
+          <field name="age_group"/>
+          <field name="notes" />
+          <field name="patient_email"/>
+          <field name="user_id"/>
+        </tree>
+      </field>
+    </record>
+      <record id="patient_kanban" model="ir.ui.view">
+            <field name="name">hospital.patient_kanban</field>
+            <field name="model">hospital.patient</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="doctor_name">
+                    <field name="id"/>
+                    <field name="image"/>
+                    <field name="doctor_name"/>
+                    <field name="age"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_patient_hospital_kanban">
+                            <t t-if="record.image.raw_value">
+                                <div class="o_kanban_image_fill_left d-none d-md-block " t-attf-style="background-image:url('#{kanban_image('hospital.patient', 'image', record.id.raw_value)}')"/>
+<!--                                <div class="o_kanban_image d-md-none" t-attf-style="background-image:url('#{kanban_image('hospital.patient', 'image_128', record.id.raw_value,  placeholder)}')">-->
+
+                            </t>
+                            <t t-else="">
+                                    <t t-set="placeholder" t-value="'/base/static/img/avatar_grey.png'"/>
+                                    <div class="o_kanban_image_fill_left o_kanban_image_full" t-attf-style="background-image: url(#{kanban_image('hospital.patient', 'image', record.id.raw_value, placeholder)})"/>
+                                </t>
+<!--                            <t t-else="">-->
+<!--                                <img class="o_kanban_image" t-attr-src="_s + '/base/static/img/avatar.png'"/>-->
+<!--                            </t>-->
+<!--                            <t t-if="!record.is_company.raw_value">-->
+<!--                                    <t t-if="record.type.raw_value === 'delivery'" t-set="placeholder" t-value="'/base/static/img/truck.png'"/>-->
+<!--                                    <t t-elif="record.type.raw_value === 'invoice'" t-set="placeholder" t-value="'/base/static/img/money.png'"/>-->
+<!--                                    <t t-else="" t-set="placeholder" t-value="'/base/static/img/avatar_grey.png'"/>-->
+<!--                                    <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('res.partner', 'image_128', record.id.raw_value,  placeholder)}')">-->
+<!--                                        <img class="o_kanban_image_inner_pic" t-if="record.parent_id.raw_value" t-att-alt="record.parent_id.value" t-att-src="kanban_image('res.partner', 'image_128', record.parent_id.raw_value)"/>-->
+<!--                                    </div>-->
+<!--                                    <div class="o_kanban_image d-md-none" t-attf-style="background-image:url('#{kanban_image('res.partner', 'image_128', record.id.raw_value,  placeholder)}')">-->
+<!--                                        <img class="o_kanban_image_inner_pic" t-if="record.parent_id.raw_value" t-att-alt="record.parent_id.value" t-att-src="kanban_image('res.partner', 'image_128', record.parent_id.raw_value)"/>-->
+<!--                                    </div>-->
+<!--                                </t>-->
+<!--                                <t t-else="">-->
+<!--                                    <t t-set="placeholder" t-value="'/base/static/img/company_image.png'"/>-->
+<!--                                    <div class="o_kanban_image_fill_left o_kanban_image_full" t-attf-style="background-image: url(#{kanban_image('res.partner', 'image_128', record.id.raw_value, placeholder)})" role="img"/>-->
+<!--                                </t>-->
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title"><field name="display_name"/></strong>
+                                        <div class="o_kanban_tags_section">
+                                            <ul>
+                                                <li> Age: <field name="age"/></li>
+                                                <li> Doctor: <field name="doctor_name"/></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+  <record model="ir.ui.view" id="patient_form">
+        <field name="name">patient_form</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+          <form string='Patients'>
+              <header>
+                  <button name="%(hospital.create_appointment_wizard)d" type="action" string="Create Appointment"
+                          class="oe_highlight" context="{'default_patient_id': active_id}"/>
+                  <button name="action_send_email" type="object" string="send by email" class="oe_highlight"
+                  groups="hospital.group_hospital_manager"/>
+                  <button name="print_report" type="object" string="Print" class="oe_highlight"/>
+              </header>
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <button name="open_patient_appointment"
+                    type="object" class="oe_stat_button" icon="fa-calendar">
+                        <field name="appointment_count" string="Appointment" widget="statinfo"/>
+                    </button>
+                    <button name="%(open_patient_appointment)d"
+                    type="action" class="oe_stat_button" icon="fa-usd">
+                        <field name="appointment_count" string="Appointment" widget="statinfo"/>
+                    </button>
+                    <button name="toggle_active"
+                    type="object" class="oe_stat_button" icon="fa-archive">
+                        <field name="active"  widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                    </button>
+                </div>
+            <div class='oe_title'>
+              <h1>
+                <field name='name_seq'></field>
+              </h1>
+            </div>
+              <!-- inline -->
+              <group>
+                <group>
+                    <field name="name"/>
+                    <field name="patient_name_upper" groups="base.group_no_one"/>
+                    <field name="doctor_name"
+                           attrs="{'invisible': [('gender', '=', 'male')]}"
+                           options="{'no_create_edit': True, 'no_create': True, 'no_open':True}"/>
+                    <field name="doctor_gender"/>
+                </group>
+                <group>
+                    <field name="age" options="{'type': 'number', 'step':1}"/>
+                    <field name="age2" widget="float_toggle" options="{'range':[1,2,3,4,5,6,7,8,9,10]}"/>
+                </group>
+              </group>
+              <!-- end inline -->
+              <!-- default block -->
+              <group>
+                <field name="gender"/>
+                <field name="age_group"/>
+                <field name="notes" />
+                <field name="image" widget='image'/>
+                <field name="patient_email" groups="hospital.group_hospital_manager"/>
+                <field name="user_id"/>
+              </group>
+              <!-- end block -->
+            </sheet>
+            <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+          </form>
+        </field>
+      </record> 
+              <record model="ir.ui.view" id="course_search_view">
+            <field name="name">patient.search</field>
+            <field name="model">hospital.patient</field>
+            <field name="arch" type="xml">
+                <search string='Search For Patient...'>
+                    <field name="name" filter_domain="['|', ('name', 'ilike', self), ('name_seq', 'ilike', self)]"/>
+                    <!-- add fields below to show as search for Reference ... -->
+                    <field name="name_seq"/>
+                    <field name="name"/>
+                    <!-- to ignore OR -->
+                    <separator/>
+                <filter string="Male" name="male" domain="[('gender','=','male')]"/>
+                
+                <separator/>
+                <filter string="Female" name="female" domain="[('gender','=','female')]"/>
+                
+                <separator/>
+                <group expand="1" string="Group By">
+                    <filter string="Gender" name="gender" context="{'group_by':'gender'}"/>
+                    <!-- <filter string="Product Category" name="categ_id" context="{'group_by':'categ_id'}"/> -->
+                </group>
+                </search>
+            </field>
+        </record>
+ 
+  <record model="ir.actions.act_window" id="hospital_patient_action">
+      <field name="name">Patients </field>
+      <field name="res_model">hospital.patient</field>
+      <field name='type'>ir.actions.act_window</field>
+      
+      <field name="view_mode">tree,form,kanban</field>
+      <field name="context">{'search_default_male': 1}</field>
+      <field name='help' type='html'>
+        <p class='o_view_nocontent_smiling_face'>
+          Create First Patient
+        </p>
+      </field>
+    </record>
+
+  <menuitem id='hospital_root' name='Hospital' sequence='0'></menuitem>
+  <menuitem id='hospital_patients' name='Patients' parent='hospital_root' action='hospital_patient_action'></menuitem>
+  <menuitem id='hospital_create_appointment' name='Create Appointment' parent='hospital_root' action='create_appointment_wizard'></menuitem>
+    <!-- explicit list view definition -->
+
+  </data>
+</odoo>

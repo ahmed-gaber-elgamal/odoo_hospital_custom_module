@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<!--    <data>-->
+<!--        <record model="res.config.settings" id="res_config_settings">-->
+<!--            <field name="module_sale_product_matrix" eval="0"/>-->
+<!--        </record>-->
+<!--        <function model="res.config.settings" name="execute">-->
+<!--            <value eval="[ref('res_config_settings')]"/>-->
+<!--            <value eval="{}"/>-->
+<!--        </function>-->
+<!--    </data>-->
+    <data noupdate="1">
+
+        <!-- Sequences for sale.order -->
+        <record id="x_patient" model="hospital.patient">
+            <field name="name">X</field>
+            <field name="age">23</field>
+            <field name="gender">male</field>
+            <field name="name_seq">P#23000</field>
+            <field name="notes">happy</field>
+        </record>
+
+
+    </data>
+    <data noupdate="1">
+
+        <!-- Sequences for sale.order -->
+        <record id="x_appointment" model="hospital.appointment">
+            <field name="name">AP#00023</field>
+            <field name="patient_age">23</field>
+            <field name="patient_id" ref="x_patient"/>
+<!--            <field name="appointment_date">06/06/2020</field>-->
+            <field name="notes">hello world!!!</field>
+            <field name="doctor_notes">happy</field>
+            <field name="pharmacy_notes">happy</field>
+        </record>
+<!--        <delete id="auth_signup.mail_template_user_signup_account_created" model="mail.template"/>-->
+
+
+    </data>
+</odoo>
