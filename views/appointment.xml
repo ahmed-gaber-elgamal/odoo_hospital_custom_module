@@ -75,7 +75,7 @@
           <form string='Appointment'>
               <header>
                   <button name="confirm_state" type="object" string="Confirm" class="oe_highlight" states="draft"/>
-                  <button name="done_state" type="object" string="Done" class="oe_highlight" states="confirm"/>
+                  <button name="done_state" type="object" string="Done" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
                   <button name="delete_lines" type="object" string="delete" class="oe_highlight"/>
                   <field name="state" widget="statusbar"  options="{'clickable':'1'}"/>
               </header>
