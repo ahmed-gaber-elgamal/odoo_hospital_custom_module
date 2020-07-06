@@ -72,6 +72,7 @@ class HospitalAppointment(models.Model):
     appointment_lines=fields.One2many('hospital.appointment.lines', 'appointment_id', string='appointment lines')
     partner_id = fields.Many2one('res.partner', string="Customer")
     order_id = fields.Many2one('sale.order', string="sale order")
+    total_amount=fields.Float(string='Total Amount')
 class HospitalAppointmentLines(models.Model):
     _name = 'hospital.appointment.lines'
     _description = 'Appointment Lines'
