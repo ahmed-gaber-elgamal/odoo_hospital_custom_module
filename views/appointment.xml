@@ -102,11 +102,8 @@
 <!--                                <small name="planned_hours" class="text-muted ml4 " >-->
 <!--                                    <t t-esc="record.notes"/>-->
 <!--                                </small>-->
-<!--                            <div>-->
-<!--                                <field name="name" display="full"/>-->
-<!--                                <field name="project_id" muted="1" display="full" invisible="context.get('default_project_id', False)"/>-->
+
 <!--                            </div>-->
-<!--                        </div>-->
 <!--                        </t>-->
 <!--                    </templates>-->
 <!--                </timeline>-->
