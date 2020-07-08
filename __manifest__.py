@@ -39,6 +39,7 @@
         'data/data.xml',
         'data/cron.xml',
         'views/doctor.xml',
+        'views/server_action.xml',
         'views/lab.xml',
         'views/dashboard.xml',
         'security/security.xml',

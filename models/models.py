@@ -22,6 +22,18 @@ class HospitalPatient(models.Model):
     _name = 'hospital.patient'
     _description = 'patient record'
     _inherit=['mail.thread', 'mail.activity.mixin']
+
+    def action_patients(self):
+        print('oooooooooooooo')
+        return {
+            'name': _('patient server action'),
+            'view_mode': 'tree,form',
+            'res_model': 'hospital.patient',
+            'domain': [],
+            'view_id': False,
+            'view_type': 'form',
+            'type': 'ir.actions.act_window',
+            }
     @api.constrains('age')
     def check_age(self):
         for rec in self:
