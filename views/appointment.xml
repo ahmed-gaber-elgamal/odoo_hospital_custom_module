@@ -63,9 +63,55 @@
                 </graph>
             </field>
         </record>
-<!--      <timeline>-->
-
-<!--      </timeline>-->
+        <record id="appointment_activity" model="ir.ui.view">
+            <field name="name">hospital.appointment.activity</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <activity string="Appointment Tasks">
+                    <field name="patient_id"/>
+                    <templates>
+                        <div t-name="activity-box">
+<!--                            <img t-att-src="activity_image('res.users', 'image_128', record.user_id.raw_value)" t-att-title="record.user_id.value" t-att-alt="record.user_id.value"/>-->
+                            <div>
+                                <field name="name" display="full"/>
+                                <field name="doctor_id" muted="1" display="full" invisible="context.get('default_doctor_id', False)"/>
+                            </div>
+                        </div>
+                    </templates>
+                </activity>
+            </field>
+        </record>
+<!--      <record id="appointment_timeline" model="ir.ui.view">-->
+<!--            <field name="name">hospital.appointment.timeline</field>-->
+<!--            <field name="model">hospital.appointment</field>-->
+<!--&lt;!&ndash;            <field name="type">timeline</field>&ndash;&gt;-->
+<!--            <field name="arch" type="xml">-->
+<!--                <timeline-->
+<!--                date_start="appointment_date"-->
+<!--                date_stop="appointment_end_date"-->
+<!--                default_group_by="doctor_id"-->
+<!--                event_open_popup="true">-->
+<!--                    <field name="patient_id"/>-->
+<!--                    <field name="name"/>-->
+<!--                    <templates>-->
+<!--                        <t t-name="timeline-item">-->
+<!--                            <div class="o_project_timeline_item">-->
+<!--                                <span name="display_name">-->
+<!--                                    <t t-esc="record.display_name"/>-->
+<!--                                </span>-->
+<!--                                <small name="planned_hours" class="text-muted ml4 " >-->
+<!--                                    <t t-esc="record.notes"/>-->
+<!--                                </small>-->
+<!--                            <div>-->
+<!--                                <field name="name" display="full"/>-->
+<!--                                <field name="project_id" muted="1" display="full" invisible="context.get('default_project_id', False)"/>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        </t>-->
+<!--                    </templates>-->
+<!--                </timeline>-->
+<!--            </field>-->
+<!--        </record>-->
         <record model="ir.ui.view" id="appointment_calendar">
             <field name="name">hospital.appointment.calendar</field>
             <field name="model">hospital.appointment</field>
@@ -120,6 +166,7 @@
 <group>
     <group>
                         <field name="patient_id"/>
+                        <field name="doctor_id"/>
                         <field name="patient_age"/>
                         <field name="total_amount" />
     </group>
@@ -131,6 +178,7 @@
     <group>
 
         <field name="appointment_date" options="{'datepicker': {'daysOfWeekDisabled': [0,6]}}"/>
+        <field name="appointment_end_date" options="{'datepicker': {'daysOfWeekDisabled': [0,6]}}"/>
         <field name="appointment_datetime"/>
     </group>
                 </group>
@@ -183,7 +231,7 @@
       <field name="res_model">hospital.appointment</field>
       <field name='type'>ir.actions.act_window</field>
 
-      <field name="view_mode">tree,form,calendar,graph,pivot</field>
+      <field name="view_mode">tree,form,calendar,graph,pivot,activity</field>
 <!--      <field name="context">{'search_default_male': 1}</field>-->
       <field name='help' type='html'>
         <p class='o_view_nocontent_smiling_face'>

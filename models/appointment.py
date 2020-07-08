@@ -58,11 +58,13 @@ class HospitalAppointment(models.Model):
     name=fields.Char(string='Appointment Id', required=True, copy=False, readonly=True, index=True,
                      default=lambda self:_('New'))
     patient_id=fields.Many2one('hospital.patient', string='Patient')
+    doctor_id = fields.Many2one('hospital.doctor', string='Doctor')
     patient_age=fields.Integer('Age', related='patient_id.age')
     notes=fields.Text('Registeration Note', default=set_default_value)
     doctor_notes = fields.Text('Note')
     pharmacy_notes = fields.Text('Note')
-    appointment_date=fields.Date(string='Date')
+    appointment_date=fields.Date(string='Start Date')
+    appointment_end_date = fields.Date(string='End Date')
     appointment_datetime = fields.Datetime(string='Date Time')
     state = fields.Selection([
         ('draft', 'draft'),
