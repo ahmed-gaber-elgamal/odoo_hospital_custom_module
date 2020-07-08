@@ -2,7 +2,25 @@ from odoo import http
 from odoo.http import request
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
-
+class AppointmentController(http.Controller):
+    @http.route('/hospital/appointments', type='json', auth='user')
+    def appointment_banner(self):
+        return {
+            'html': """
+                <div>
+                    <link>
+                    <center><h1><font color="red"> Odoo custom module</h1></center>
+                    <center>
+                        <p>
+                            <font color="blue">
+                            <a href="http://localhost:8069/web#id=&action=518&model=board.board&view_type=form&cids=&menu_id=242">
+                                My Odoo Custom module 
+                            </a>
+                        </p>
+                    </center>
+                </div>
+            """
+        }
 class WebsiteSaleInherit(WebsiteSale):
     @http.route([
         '''/shop''',

@@ -113,7 +113,7 @@
             <field name="name">hospital.appointment.calendar</field>
             <field name="model">hospital.appointment</field>
             <field name="arch" type="xml">
-                <calendar date_start="appointment_date"  string="Appointment Calendar"  color="patient_id" mode="month" quick_add="False">
+                <calendar date_start="appointment_date"  string="Appointment Calendar"  color="patient_id" mode="month" quick_add="False" >
                     <field name="name"/>
                     <field name="patient_id"/>
                 </calendar>
@@ -123,23 +123,20 @@
       <field name="name">hospital.appointment.tree</field>
       <field name="model">hospital.appointment</field>
       <field name="arch" type="xml">
-        <tree string="Appointment" decoration-info="patient_age == 10"
-           decoration-danger="patient_age &lt;= 20" decoration-success="patient_age &gt; 20">
-          <field name="patient_id"/>
-<!--          <field name="image" widget='image' class='oe_avatar'/>-->
-          <field name="name"/>
-          <field name="patient_age" avg="average ages"/>
-<!--          <field name="state"/>-->
-          <field name="appointment_date"/>
-<!--          <field name="notes"/>-->
-        </tree>
+          <tree decoration-info="state == 'draft'" decoration-danger="state == 'confirm'" decoration-success="state == 'done'" string="Appointment" banner_route="/hospital/appointments">
+                    <field name="patient_id"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="patient_age" avg="average ages"/>
+                    <field name="appointment_date"/>
+                    </tree>
       </field>
     </record>
   <record model="ir.ui.view" id="appointment_form">
         <field name="name">appointment.form</field>
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
-          <form string='Appointment'>
+          <form string='Appointment' banner_route="/hospital/appointments" >
               <header>
                   <button name="confirm_state" type="object" string="Confirm" class="oe_highlight" states="draft"/>
                   <button name="done_state" type="object" string="Done" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
