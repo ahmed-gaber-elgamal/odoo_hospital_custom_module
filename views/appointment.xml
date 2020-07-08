@@ -42,6 +42,17 @@
 
           </t>
       </template>
+      <record id="appointment_pivot" model="ir.ui.view">
+        <field name="name">hospital.appointment.pivot</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <pivot string="Appointment">
+                <field name="patient_id" type="row" />
+                <field name="appointment_date" type="column" />
+            </pivot>
+        </field>
+    </record>
+
       <record model="ir.ui.view" id="appointment_graph">
             <field name="name">hospital.appointment.graph</field>
             <field name="model">hospital.appointment</field>
@@ -52,6 +63,9 @@
                 </graph>
             </field>
         </record>
+<!--      <timeline>-->
+
+<!--      </timeline>-->
         <record model="ir.ui.view" id="appointment_calendar">
             <field name="name">hospital.appointment.calendar</field>
             <field name="model">hospital.appointment</field>
@@ -72,9 +86,9 @@
 <!--          <field name="image" widget='image' class='oe_avatar'/>-->
           <field name="name"/>
           <field name="patient_age" avg="average ages"/>
-          <field name="state"/>
+<!--          <field name="state"/>-->
           <field name="appointment_date"/>
-          <field name="notes"/>
+<!--          <field name="notes"/>-->
         </tree>
       </field>
     </record>
@@ -169,7 +183,7 @@
       <field name="res_model">hospital.appointment</field>
       <field name='type'>ir.actions.act_window</field>
 
-      <field name="view_mode">tree,form,calendar,graph</field>
+      <field name="view_mode">tree,form,calendar,graph,pivot</field>
 <!--      <field name="context">{'search_default_male': 1}</field>-->
       <field name='help' type='html'>
         <p class='o_view_nocontent_smiling_face'>
