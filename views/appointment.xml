@@ -139,8 +139,10 @@
           <form string='Appointment' banner_route="/hospital/appointments" >
               <header>
                   <button name="confirm_state" type="object" string="Confirm" class="oe_highlight" states="draft"/>
+                  <button name="action_notify" type="object" string="Notify" class="oe_highlight" states="draft"/>
                   <button name="done_state" type="object" string="Done" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
                   <button name="delete_lines" type="object" string="delete" class="oe_highlight"/>
+                  <button name="test_recordset" type="object" string="Record Set" class="oe_highlight"/>
                   <field name="state" widget="statusbar"  options="{'clickable':'1'}"/>
               </header>
 
@@ -185,6 +187,7 @@
 
                             <field name="appointment_lines">
                       <tree editable="bottom">
+                          <field name="sequence" widget="handle"/>
                           <field name="product_id"/>
                           <field name="appointment_id" invisible="1"/>
                           <field name="product_quantity"/>

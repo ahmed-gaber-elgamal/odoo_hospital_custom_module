@@ -110,6 +110,7 @@
                   <button name="action_send_email" type="object" string="send by email" class="oe_highlight"
                   groups="hospital.group_hospital_manager"/>
                   <button name="print_report" type="object" string="Print" class="oe_highlight"/>
+                  <button name="print_report_excel" type="object" string="Print Excel" class="oe_highlight"/>
               </header>
             <sheet>
                 <div class="oe_button_box" name="button_box">

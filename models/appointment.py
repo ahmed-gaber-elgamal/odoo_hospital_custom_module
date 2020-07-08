@@ -8,6 +8,13 @@ class HospitalAppointment(models.Model):
     _order = 'patient_age desc'
 
 
+    def test_recordset(self):
+        for rec in self:
+            partners=self.env['res.partner'].search([])
+            print('partners................',partners.mapped('name'))
+            print('partners................', partners.sorted(lambda g: g.create_date, reverse=True))
+            print('partners................', partners.filtered(lambda g: g.user_id))
+
     def delete_lines(self):
         for rec in self:
             print('time in utc', rec.appointment_datetime)
@@ -88,3 +95,4 @@ class HospitalAppointmentLines(models.Model):
     product_id=fields.Many2one('product.product', string='Medicine')
     appointment_id=fields.Many2one('hospital.appointment', string='Appointment id')
     product_quantity=fields.Integer(string='quantity')
+    sequence = fields.Integer(string='Sequence')

@@ -5,6 +5,10 @@ from odoo.exceptions import ValidationError
 class SaleOrderInherit(models.Model):
     _inherit='sale.order'
     patient_name=fields.Char(string=' Patient Name')
+    def action_confirm(self):
+        print('inherited successufully')
+        res=super(SaleOrderInherit, self).action_confirm()
+        return res
 class ResPartner(models.Model):
     _inherit='res.partner'
     company_type=fields.Selection(selection_add=[('iti', 'iti')])
@@ -73,7 +77,8 @@ class HospitalPatient(models.Model):
         template.send_mail(self.id, force_send=True)
     def print_report(self):
         return self.env.ref('hospital.patient_report').report_action(self)
-
+    def print_report_excel(self):
+        return self.env.ref('hospital.patient_report_xlx').report_action(self)
 
     name=fields.Char(string='Name', required=True)
     age=fields.Integer(string='Age', track_visibility='always', group_operator=False)
