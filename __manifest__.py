@@ -22,7 +22,7 @@
     # any module necessary for this one to work correctly
     'depends': ['base', 'mail', 'sale', 'board'],
 
-    # always loadeda
+    # always loaded
     'data': [
         'security/ir.model.access.csv',
         'wizards/create_appointment.xml',
@@ -39,10 +39,12 @@
         'data/data.xml',
         'data/cron.xml',
         'views/doctor.xml',
+        'views/website_form.xml',
         'views/server_action.xml',
         'views/lab.xml',
         'views/dashboard.xml',
         'security/security.xml',
+
     ],
     # only loaded in demonstration mode
     'demo': [

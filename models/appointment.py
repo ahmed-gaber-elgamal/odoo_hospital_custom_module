@@ -63,9 +63,19 @@ class HospitalAppointment(models.Model):
     @api.model
     def default_get(self, fields):
         res = super(HospitalAppointment, self).default_get(fields)
-        print('tessssssssssssssssssst')
-        res['patient_id']=28
-        res['notes']='click here to write a note'
+        appointment_lines=[]
+        product_rec=self.env['product.product'].search([])
+        for pro in product_rec:
+            line = (0,0,{
+                'product_id':pro.id,
+                'product_quantity':1
+            })
+            appointment_lines.append(line)
+            res.update({
+                "appointment_lines":appointment_lines,
+                "patient_id":30,
+                "notes":'odoo custom module...'
+            })
         return res
 
 
@@ -86,9 +96,23 @@ class HospitalAppointment(models.Model):
         ('done', 'done')
     ], default="draft", string="Status")
     appointment_lines=fields.One2many('hospital.appointment.lines', 'appointment_id', string='appointment lines')
+    product_id=fields.Many2one('product.template',string='product template')
     partner_id = fields.Many2one('res.partner', string="Customer")
     order_id = fields.Many2one('sale.order', string="sale order")
     total_amount=fields.Float(string='Total Amount')
+
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        for rec in self:
+            lines=[(5,0,0)]
+            for line in self.product_id.product_variant_ids:
+                vals={
+                    'product_id': line.id,
+                    'product_quantity':5
+                }
+                lines.append((0,0,vals))
+            rec.appointment_lines=lines
+
 class HospitalAppointmentLines(models.Model):
     _name = 'hospital.appointment.lines'
     _description = 'Appointment Lines'

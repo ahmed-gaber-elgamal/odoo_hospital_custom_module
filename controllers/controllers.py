@@ -36,6 +36,17 @@ class WebsiteSaleInherit(WebsiteSale):
 
 
 class Hospital(http.Controller):
+
+    @http.route('/patient/create',type='http', website=True, auth='public')
+    def patient_webform(self, **kw):
+        return http.request.render('hospital.create_patient', {})
+
+    @http.route('/patient/store', type='http', website=True, auth='public')
+    def create_webpatient(self, **kw):
+        print('data recieved...', kw)
+        request.env['hospital.patient'].sudo().create(kw)
+        return request.render('hospital.patient_thanks', {})
+
     @http.route('/hospital/patient/',website=True, auth='user')
     def hospital_patient(self, **kw):
         patients=request.env['hospital.patient'].sudo().search([])

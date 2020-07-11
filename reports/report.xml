@@ -5,15 +5,14 @@
             string="Patient Report"
             model="hospital.patient"
             report_type="qweb-pdf"
-
             name="hospital.report_patient"
             file="hospital.report_patient"/>
+
         <report
             id="patient_report_xlx"
             string="Patient Report Excel"
             model="hospital.patient"
             report_type="xlsx"
-
             name="hospital.report_patient_xlx"
             file="hospital.report_patient_xlx"/>
 
@@ -22,21 +21,12 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
-<!--                    <h2>patients</h2>-->
-<!--                    <h2>-->
-<!--                        <t t-esc="doc.name "/>-->
-<!--                        <t t-esc="doc.age"/>-->
-
-
-
-
-<!--                    </h2>-->
                     <div class="page">
                         <h2 t-field="doc.name"/>
                         <table style="width: 100%; max-width: 600px; border-spacing: 0; border: 3px solid black; border-bottom: none; color: #6e7172; line-height: 23px; text-align: left;">
                 <tr>
                     <td>
-                                                <img t-attf-src="data:image/*;base64,{{doc.image}}"/>
+                        <img t-attf-src="data:image/*;base64,{{doc.image}}"/>
                     </td>
                     <td>
                         <h1 style="text-align:right"><strong>Name: </strong></h1>
