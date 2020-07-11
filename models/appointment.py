@@ -83,6 +83,7 @@ class HospitalAppointment(models.Model):
                      default=lambda self:_('New'))
     patient_id=fields.Many2one('hospital.patient', string='Patient')
     doctor_id = fields.Many2one('hospital.doctor', string='Doctor')
+    doctor_ids = fields.Many2many('hospital.doctor', string='Doctors')
     patient_age=fields.Integer('Age', related='patient_id.age')
     notes=fields.Text('Registeration Note', default=set_default_value)
     doctor_notes = fields.Text('Note')

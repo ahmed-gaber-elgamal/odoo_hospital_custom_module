@@ -80,7 +80,7 @@ class HospitalPatient(models.Model):
         result = []
 
         for record in self:
-            result.append((record.id, "%s%s" % (record.name_seq, record.name)))
+            result.append((record.id, "%s-%s" % (record.name_seq, record.name)))
         return result
 
     def action_send_email(self):

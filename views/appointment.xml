@@ -163,6 +163,7 @@
     <group>
                         <field name="patient_id"/>
                         <field name="doctor_id"/>
+                        <field name="doctor_ids" widget="many2many_tags"/>
                         <field name="patient_age"/>
                         <field name="total_amount" />
     </group>

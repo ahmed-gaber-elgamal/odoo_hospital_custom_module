@@ -10,6 +10,7 @@
           <field name="patient_id"/>
           <field name="doctor_name"/>
           <field name="doctor_gender" />
+          <field name="appointment_ids" />
         </tree>
       </field>
     </record>
@@ -24,6 +25,7 @@
                         <field name="doctor_name"/>
                         <field name="doctor_gender"/>
                         <field name="patient_id"/>
+                        <field name="appointment_ids" widget="many2many_tags"/>
                     </group>
 
                 </group>
