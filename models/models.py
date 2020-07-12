@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 class SaleOrderInherit(models.Model):
     _inherit='sale.order'
     patient_name=fields.Char(string=' Patient Name')
+    is_patient = fields.Boolean(string='Is a Patient', default=False)
     def action_confirm(self):
         print('inherited successufully')
         res=super(SaleOrderInherit, self).action_confirm()

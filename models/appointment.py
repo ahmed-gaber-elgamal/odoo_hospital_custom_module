@@ -38,6 +38,62 @@ class HospitalAppointment(models.Model):
 
     def confirm_state(self):
         for rec in self:
+            # search
+            patients =  self.env['hospital.patient'].search([])
+            patients_count = self.env['hospital.patient'].search_count([])
+            print('patients=============>', patients)
+            print('patients count=============>', patients_count)
+            # search with and
+            female_patients = self.env['hospital.patient'].search([('gender', '=', 'female'),
+                                                                   ('age', '>=', 22)])
+            female_patients_count = self.env['hospital.patient'].search_count([('gender', '=', 'female'),
+                                                                   ('age', '>=', 22)])
+            print('females=============>', female_patients)
+            print('females count=============>', female_patients_count)
+            # search with or
+            female_patients_or_above_22 = self.env['hospital.patient'].search(['|', ('gender', '=', 'female'),
+                                                                   ('age', '>=', 22)])
+            female_patients_or_above_22_count = self.env['hospital.patient'].search_count(['|', ('gender', '=', 'female'),
+                                                                               ('age', '>=', 22)])
+            print('females or anyone above 22=========>', female_patients_or_above_22)
+            print('females or anyone above 22 count=========>', female_patients_or_above_22_count)
+            # orm ref function
+            patient_seeder = self.env.ref('hospital.x_patient')
+            print(patient_seeder.name)
+            # orm browse fn & name_get
+            # browsed_patient = patients.browse([p.id for p in patients if p.id])
+            browsed_patient = self.env['hospital.patient'].browse([30, 31])
+            if browsed_patient.exists():
+                print("browsed_patient is ", browsed_patient.name_get())
+            else:
+                print('not exist')
+            # vals={
+            #     'name':'orm',
+            #     'age':24
+            # }
+            # create new patient
+            # new_patient = self.env['hospital.patient'].create(vals)
+            # print('new_patient is added', new_patient.name)
+            # update an existing patient
+            # updated_patient = self.env['hospital.patient'].browse(52)
+            # vals = {
+            #     'patient_email':'a@a.com'
+            # }
+            # if updated_patient.exists():
+            #     updated = updated_patient.write(vals)
+            #     print('patient is updated is', updated)
+            # copy or duplicate patient
+            # patient_to_copied = self.env['hospital.patient'].browse(52)
+            # copied_patient = copied_patient.copy()
+            # print('copied_patient', copied_patient)
+            # unlink patient
+            # patient_to_deleted = self.env['hospital.patient'].browse(52)
+            # deleted = patient_to_deleted.unlink()
+            # default_get
+            # patient_to_deleted = self.env['hospital.patient'].browse(28)
+            # getter = patient_to_deleted.default_get(['gender'])
+            # print('getter is ', getter)
+
             rec.state='confirm'
         return {
             'effect': {
